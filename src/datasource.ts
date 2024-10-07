@@ -1,13 +1,13 @@
 import { DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
-import { TrinoDataSourceOptions, TrinoQuery } from './types';
+import {TrinoDataSecureSourceOptions, TrinoDataSourceOptions, TrinoQuery} from './types';
 import { TrinoDataVariableSupport } from './variable';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, mapTo } from 'rxjs/operators';
 import { map } from 'lodash';
 
-export class DataSource extends DataSourceWithBackend<TrinoQuery, TrinoDataSourceOptions> {
-  constructor(instanceSettings: DataSourceInstanceSettings<TrinoDataSourceOptions>) {
+export class DataSource extends DataSourceWithBackend<TrinoQuery, TrinoDataSourceOptions, TrinoDataSecureSourceOptions> {
+  constructor(instanceSettings: DataSourceInstanceSettings<TrinoDataSourceOptions, TrinoDataSecureSourceOptions>) {
     super(instanceSettings);
     this.variables = new TrinoDataVariableSupport();
     // give interpolateQueryStr access to this
@@ -16,36 +16,36 @@ export class DataSource extends DataSourceWithBackend<TrinoQuery, TrinoDataSourc
 
   testDatasource(): Promise<any> {
     return lastValueFrom(
-      getBackendSrv()
-        .fetch({
-          url: '/api/ds/query',
-          method: 'POST',
-          requestId: 'A',
-          data: {
-            from: '5m',
-            to: 'now',
-            queries: [
-              {
-                refId: 'A',
-                key: 'A',
-                intervalMs: 1,
-                maxDataPoints: 1,
-                datasource: this.getRef(),
-                rawSQL: 'SELECT 1',
-                format: 0,
+        getBackendSrv()
+            .fetch({
+              url: '/api/ds/query',
+              method: 'POST',
+              requestId: 'A',
+              data: {
+                from: '5m',
+                to: 'now',
+                queries: [
+                  {
+                    refId: 'A',
+                    key: 'A',
+                    intervalMs: 1,
+                    maxDataPoints: 1,
+                    datasource: this.getRef(),
+                    rawSQL: 'SELECT 1',
+                    format: 0,
+                  },
+                ],
               },
-            ],
-          },
-        })
-        .pipe(
-          mapTo({ status: 'success', message: 'Database Connection OK' }),
-          catchError((err) => {
-            return of({
-              status: 'error',
-              message: err.error ? err.error : (err.statusText ? ("Query error: " + err.statusText) : "Error connecting to Trino"),
-            });
-          })
-        )
+            })
+            .pipe(
+                mapTo({ status: 'success', message: 'Database Connection OK' }),
+                catchError((err) => {
+                  return of({
+                    status: 'error',
+                    message: err.error ? err.error : (err.statusText ? ("Query error: " + err.statusText) : "Error connecting to Trino"),
+                  });
+                })
+            )
     );
   }
 

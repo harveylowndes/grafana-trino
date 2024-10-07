@@ -40,6 +40,7 @@ func Open(settings models.TrinoDatasourceSettings) (*sql.DB, error) {
 			clientCert = append(clientCert, cert)
 		}
 	}
+
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
@@ -49,6 +50,7 @@ func Open(settings models.TrinoDatasourceSettings) (*sql.DB, error) {
 			},
 		},
 	}
+
 	err := trino.RegisterCustomClient("grafana", client)
 	if err != nil {
 		return nil, err
@@ -57,6 +59,7 @@ func Open(settings models.TrinoDatasourceSettings) (*sql.DB, error) {
 		ServerURI:        settings.URL.String(),
 		Source:           "grafana",
 		CustomClientName: "grafana",
+		AccessToken:      settings.AccessToken,
 	}
 
 	dsn, err := config.FormatDSN()

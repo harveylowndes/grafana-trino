@@ -14,6 +14,7 @@ type TrinoDatasourceSettings struct {
 	URL                 *url.URL           `json:"-"`
 	Opts                httpclient.Options `json:"-"`
 	EnableImpersonation bool               `json:"enableImpersonation"`
+	AccessToken         string             `json:"-"`
 }
 
 func (s *TrinoDatasourceSettings) Load(config backend.DataSourceInstanceSettings) error {
@@ -42,6 +43,9 @@ func (s *TrinoDatasourceSettings) Load(config backend.DataSourceInstanceSettings
 	err = json.Unmarshal(config.JSONData, &s)
 	if err != nil {
 		return err
+	}
+	if token, ok := config.DecryptedSecureJSONData["accessToken"]; ok {
+		s.AccessToken = token
 	}
 	return nil
 }

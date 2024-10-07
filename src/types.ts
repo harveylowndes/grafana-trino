@@ -1,4 +1,4 @@
-import { DataQuery, DataSourceJsonData, SelectableValue } from '@grafana/data';
+import { DataQuery, DataSourceJsonData, DataSourceSecureJsonData, SelectableValue } from '@grafana/data';
 
 export enum FormatOptions {
   TimeSeries,
@@ -27,18 +27,18 @@ export const SelectableFormatOptions: Array<SelectableValue<FormatOptions>> = [
 
 export const defaultQuery: Partial<TrinoQuery> = {
   rawSQL: `SELECT
-  $__timeGroup(time_column, '1h'),
-  value_column as value,
+             $__timeGroup(time_column, '1h'),
+               value_column as value,
   series_column as metric
-FROM
-  catalog_name.schema_name.table_name
-WHERE
-  $__timeFilter(time_column)
-GROUP BY
-  1, 3
-ORDER BY
-  1
-`,
+           FROM
+             catalog_name.schema_name.table_name
+           WHERE
+             $__timeFilter(time_column)
+           GROUP BY
+             1, 3
+           ORDER BY
+             1
+  `,
   format: FormatOptions.TimeSeries,
 };
 
@@ -48,6 +48,12 @@ ORDER BY
 
 export interface TrinoDataSourceOptions extends DataSourceJsonData {
   enableImpersonation?: boolean;
+
+}
+
+export interface TrinoDataSecureSourceOptions extends DataSourceSecureJsonData {
+  accessToken?: string;
+
 }
 /**
  * Value that is used in the backend, but never sent over HTTP to the frontend

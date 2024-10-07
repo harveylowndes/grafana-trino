@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
-	"github.com/grafana/sqlds/v2"
 	"github.com/trinodb/grafana-trino/pkg/trino/models"
+	"github.com/grafana/sqlds/v2"
 )
 
 type SQLDatasourceWithTrinoUserContext struct {
@@ -33,7 +33,7 @@ func (ds *SQLDatasourceWithTrinoUserContext) QueryData(ctx context.Context, req 
 	return ds.SQLDatasource.QueryData(ctx, req)
 }
 
-func (ds *SQLDatasourceWithTrinoUserContext) NewDatasource(settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func (ds *SQLDatasourceWithTrinoUserContext) NewDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	_, err := ds.SQLDatasource.NewDatasource(settings)
 	if err != nil {
 		return nil, err

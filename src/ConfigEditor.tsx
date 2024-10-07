@@ -1,8 +1,8 @@
 import React, { ChangeEvent, PureComponent } from 'react';
 import { DataSourceHttpSettings, InlineField, InlineSwitch, Input } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { TrinoDataSourceOptions, TrinoDataSecureSourceOptions } from './types';
-interface Props extends DataSourcePluginOptionsEditorProps<TrinoDataSourceOptions, TrinoDataSecureSourceOptions> {}
+import {TrinoDataSourceOptions, TrinoSecureData} from './types';
+interface Props extends DataSourcePluginOptionsEditorProps<TrinoDataSourceOptions, TrinoSecureData> {}
 interface State {}
 export class ConfigEditor extends PureComponent<Props, State> {
     render() {

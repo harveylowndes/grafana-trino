@@ -1,13 +1,13 @@
 import { DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
-import {TrinoDataSecureSourceOptions, TrinoDataSourceOptions, TrinoQuery} from './types';
+import {TrinoDataSourceOptions, TrinoQuery} from './types';
 import { TrinoDataVariableSupport } from './variable';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, mapTo } from 'rxjs/operators';
 import { map } from 'lodash';
 
-export class DataSource extends DataSourceWithBackend<TrinoQuery, TrinoDataSourceOptions, TrinoDataSecureSourceOptions> {
-  constructor(instanceSettings: DataSourceInstanceSettings<TrinoDataSourceOptions, TrinoDataSecureSourceOptions>) {
+export class DataSource extends DataSourceWithBackend<TrinoQuery, TrinoDataSourceOptions> {
+  constructor(instanceSettings: DataSourceInstanceSettings<TrinoDataSourceOptions>) {
     super(instanceSettings);
     this.variables = new TrinoDataVariableSupport();
     // give interpolateQueryStr access to this

@@ -28,7 +28,7 @@
     "rxjs": "7.5.5"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=22.8.0"
   },
   "dependencies": {
     "@grafana/aws-sdk": "^0.0.46"

@@ -6,11 +6,10 @@ import {
     TrinoQuery,
     defaultQuery,
     SelectableFormatOptions,
-    TrinoDataSecureSourceOptions
 } from './types';
 import { FormatSelect, QueryCodeEditor } from '@grafana/aws-sdk';
 
-type Props = QueryEditorProps<DataSource, TrinoQuery, TrinoDataSourceOptions, TrinoDataSecureSourceOptions>;
+type Props = QueryEditorProps<DataSource, TrinoQuery, TrinoDataSourceOptions>;
 
 export function QueryEditor(props: Props) {
   const queryWithDefaults = {

@@ -1,4 +1,4 @@
-import { DataQuery, DataSourceJsonData, DataSourceSecureJsonData, SelectableValue } from '@grafana/data';
+import { DataQuery, DataSourceJsonData, SelectableValue } from '@grafana/data';
 
 export enum FormatOptions {
   TimeSeries,
@@ -48,13 +48,15 @@ export const defaultQuery: Partial<TrinoQuery> = {
 
 export interface TrinoDataSourceOptions extends DataSourceJsonData {
   enableImpersonation?: boolean;
-
-}
-
-export interface TrinoDataSecureSourceOptions extends DataSourceSecureJsonData {
   accessToken?: string;
 
 }
+
+export interface TrinoSecureData extends DataSourceJsonData {
+  accessToken?: string;
+}
+
+
 /**
  * Value that is used in the backend, but never sent over HTTP to the frontend
  */
